@@ -65,7 +65,6 @@ class InvoiceRepository implements InvoiceInterface
      */
     public function getActiveItemsLatestFirst() {
         return $this->model
-            ->where('is_paid', 1)
             ->orderBy('created_at', 'DESC')
             ->get()
         ;
