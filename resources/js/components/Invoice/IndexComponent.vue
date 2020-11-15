@@ -2,30 +2,22 @@
   <table class="table">
     <thead class="thead-light">
       <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
+        <th scope="col">School Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+        <th scope="col">Username</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-      </tr>
-      <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-      </tr>
-      <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
+      <tr v-for="invoice in loadedInvoices" :key="invoice.id">
+        <td>{{ invoice.school_name }}</td>
+        <th scope="row">{{ invoice.description }}</th>
+        <td>{{ invoice.amount }}</td>
+        <td>{{ invoice.is_paid==0 ? 'New' : 'Payment received' }}</td>
+        <td>{{ invoice.link }}</td>
+        <td>{{ invoice.username }}</td>
       </tr>
     </tbody>
   </table>
@@ -34,17 +26,25 @@
 <script>
 export default {
   data() {
-    
+    return {
+      loadedInvoices: [],
+    }
   },
 
   mounted() {
-    axios.get("api/v1/invoices").then((response) => {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
-    });
+    this.loadInvoices();    
   },
+
+  methods: {
+    loadInvoices() {
+      axios.get("api/v1/invoices").then((response) => {
+        this.loadedInvoices = response.data.data;
+        // console.log(response.status);
+        // console.log(response.statusText);
+        // console.log(response.headers);
+        // console.log(response.config);
+      });
+    }
+  }
 };
 </script>

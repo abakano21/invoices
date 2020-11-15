@@ -20,6 +20,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('invoice-index', require('./components/Invoice/IndexComponent').default);
+Vue.component("modal", { template: "#modal-template" });
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,4 +30,8 @@ Vue.component('invoice-index', require('./components/Invoice/IndexComponent').de
 
 const app = new Vue({
     el: '#app',
+
+    data: {
+        showModal: false
+    }
 });

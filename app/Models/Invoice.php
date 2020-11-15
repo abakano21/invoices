@@ -11,6 +11,8 @@ class Invoice extends Model
     use HasFactory;
     use SoftDeletes;
 
+    public $link;
+
     protected $table = 'invoices';
 
     protected $fillable = [
@@ -26,4 +28,14 @@ class Invoice extends Model
         'updated_at',
         'deleted_at',
     ];
+
+    public function linkAttribute()
+    {
+        return '/invoice-link';
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

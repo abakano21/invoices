@@ -1933,24 +1933,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  data: function data() {},
+  data: function data() {
+    return {
+      loadedInvoices: []
+    };
+  },
   mounted: function mounted() {
-    axios.get("api/v1/invoices").then(function (response) {
-      console.log(response.data);
-      console.log(response.status);
-      console.log(response.statusText);
-      console.log(response.headers);
-      console.log(response.config);
-    });
+    this.loadInvoices();
+  },
+  methods: {
+    loadInvoices: function loadInvoices() {
+      var _this = this;
+
+      axios.get("api/v1/invoices").then(function (response) {
+        _this.loadedInvoices = response.data.data; // console.log(response.status);
+        // console.log(response.statusText);
+        // console.log(response.headers);
+        // console.log(response.config);
+      });
+    }
   }
 });
 
@@ -37546,56 +37548,52 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("table", { staticClass: "table" }, [
+    _vm._m(0),
+    _vm._v(" "),
+    _c(
+      "tbody",
+      _vm._l(_vm.loadedInvoices, function(invoice) {
+        return _c("tr", { key: invoice.id }, [
+          _c("td", [_vm._v(_vm._s(invoice.school_name))]),
+          _vm._v(" "),
+          _c("th", { attrs: { scope: "row" } }, [
+            _vm._v(_vm._s(invoice.description))
+          ]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(invoice.amount))]),
+          _vm._v(" "),
+          _c("td", [
+            _vm._v(_vm._s(invoice.is_paid == 0 ? "New" : "Payment received"))
+          ]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(invoice.link))]),
+          _vm._v(" "),
+          _c("td", [_vm._v(_vm._s(invoice.username))])
+        ])
+      }),
+      0
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("table", { staticClass: "table" }, [
-      _c("thead", { staticClass: "thead-light" }, [
-        _c("tr", [
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("First")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Last")]),
-          _vm._v(" "),
-          _c("th", { attrs: { scope: "col" } }, [_vm._v("Handle")])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("tbody", [
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("1")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Mark")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Otto")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@mdo")])
-        ]),
+    return _c("thead", { staticClass: "thead-light" }, [
+      _c("tr", [
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("School Name")]),
         _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("2")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Jacob")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Thornton")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@fat")])
-        ]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Description")]),
         _vm._v(" "),
-        _c("tr", [
-          _c("th", { attrs: { scope: "row" } }, [_vm._v("3")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("Larry")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("the Bird")]),
-          _vm._v(" "),
-          _c("td", [_vm._v("@twitter")])
-        ])
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Amount")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Status")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Action")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Username")])
       ])
     ])
   }
@@ -49794,6 +49792,9 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('invoice-index', __webpack_require__(/*! ./components/Invoice/IndexComponent */ "./resources/js/components/Invoice/IndexComponent.vue")["default"]);
+Vue.component("modal", {
+  template: "#modal-template"
+});
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -49801,7 +49802,10 @@ Vue.component('invoice-index', __webpack_require__(/*! ./components/Invoice/Inde
  */
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: {
+    showModal: false
+  }
 });
 
 /***/ }),
